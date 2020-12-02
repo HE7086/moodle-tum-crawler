@@ -5,7 +5,6 @@ import os
 import time
 from urllib.parse import unquote
 from lxml import etree
-from shutil import which
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -41,7 +40,7 @@ def save_file(folder, response):
 # set up the web driver
 chrome_options = Options()
 chrome_options.add_argument('--headless')
-driver = webdriver.Chrome(executable_path=which("chromedriver"), options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options)
 
 startTime = time.time()
 
