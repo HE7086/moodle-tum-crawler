@@ -6,6 +6,7 @@ import getpass
 import logging
 import os
 import requests
+import time
 
 from lxml import etree
 from urllib.parse import unquote
@@ -47,7 +48,10 @@ def login(driver: WebDriver, username: str, password: str) -> list[dict[str, str
     driver.find_element(by="id", value="username").send_keys(username)
     driver.find_element(by="id", value="password").send_keys(password)
     driver.find_element(by="id", value="btnLogin").click()
+    if driver.current_url == "https://login.tum.de/idp/profile/SAML2/Redirect/SSO?execution=e1s1":
+        time.sleep(1)
     if driver.current_url != "https://www.moodle.tum.de/my/":
+        print(driver.current_url)
         raise RuntimeError("Login Failed! check your credentials!")
     else:
         logging.debug("Login Succeeded")
@@ -188,11 +192,11 @@ def main():
     if args.exts_all:
         args.exts = []
 
-    if args.username == "" or args.username is None:
+    if args.username == "" or args.username is None or args.password == "" or args.password is None:
         args.username = input("Username: ")
         args.password = getpass.getpass()
 
-    driver = setup_driver(args.driver)
+    driver = setup_driver(args.driver[-1] if isinstance(args.driver, list) else args.driver)
     cookies = login(driver, args.username, args.password)
     s = requests.Session()
     for cookie in cookies:
