@@ -51,7 +51,7 @@ def login(driver: WebDriver, username: str, password: str) -> list[dict[str, str
     if driver.current_url == "https://login.tum.de/idp/profile/SAML2/Redirect/SSO?execution=e1s1":
         time.sleep(1)
     if driver.current_url != "https://www.moodle.tum.de/my/":
-        print(driver.current_url)
+        logging.error(driver.current_url)
         raise RuntimeError("Login Failed! check your credentials!")
     else:
         logging.debug("Login Succeeded")
@@ -185,7 +185,7 @@ def main():
         exit()
 
     if args.exts:
-        args.exts = args.exts.split(",")
+        args.exts = args.exts[0].split(",")
     else:
         args.exts = [".pdf"]
 
