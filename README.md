@@ -1,3 +1,6 @@
+# Deprecated
+Moodle is updated with its own downloader, use that instead.
+
 # moodle-tum-crawler
 web crawler for moodle.tum.de  
 use webdriver to bypass the shibboleth login system
